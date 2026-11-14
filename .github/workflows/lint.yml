@@ -1,3 +1,9 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 2 optimizations:
+# - [MEDIUM] Add concurrency group to "lint.yml"
+# - [LOW] Explicitly set fail-fast for large matrix job "lint" (6 combinations)
+# Estimated savings: ~4 min/run
+#
 name: PHP Lint
 
 on:
@@ -13,6 +19,10 @@ on:
       - '**.php'
       - '.github/workflows/php-lint.yml'
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   lint:
     runs-on: ${{ matrix.operating-system }}
